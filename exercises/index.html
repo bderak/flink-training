@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Programming Exercises</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/flink-training/css/main.css">
+    <link rel="canonical" href="http://dataartisans.github.io/flink-training/exercises/">
+    <link rel="alternate" type="application/rss+xml" title="Apache Flink Training" href="http://dataartisans.github.io/flink-training/feed.xml" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/flink-training/index.html">Apache Flink Training<sup>&reg;</sup></a>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <!-- Lessons -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lessons<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <!-- System Overview --> 
+            <li><a href="/flink-training/overview/intro.html">1. System Overview</a></li>
+            <li><a href="/flink-training/overview/slides.html">Lecture</a></li>
+            <li class="divider"></li>
+            <!-- Local Setup -->
+            <li><a href="/flink-training/devSetup/intro.html">2. Setup Development Environment</a></li>
+            <li><a href="/flink-training/devSetup/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Basics -->
+            <li><a href="/flink-training/dataSetBasics/intro.html">3. DataSet API Basics</a></li>
+            <li><a href="/flink-training/dataSetBasics/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetBasics/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Advanced -->
+            <li><a href="/flink-training/dataSetAdvanced/intro.html">4. DataSet API Advanced</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Table API -->
+            <li><a href="/flink-training/tableApi/intro.html">5. Table API</a></li>
+            <li><a href="/flink-training/tableApi/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/tableApi/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Closing -->
+            <li><a href="/flink-training/closing/intro.html">6. Closing</a></li>
+            <li><a href="/flink-training/closing/slides.html">Slides</a></li>
+          </ul>
+        </li>
+
+        <!-- Exercises --> 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exercises<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/exercises/">Overview</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></li>
+            <li><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph Extraction</a></li>
+            <li><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></li>
+			<li class="divider"></li>
+            <li><a href="/flink-training/exercises/replyGraphGelly.html">Gelly API: Page Rank</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></li>
+          </ul>
+        </li>
+
+        <!-- Documentation Links -->  
+        <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+
+        <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+            <li><a href="/flink-training/devResources/trainingSlides.html">Training Slides</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/devResources/bestPractices.html">Best Practices</a></li>
+            <li><a href="/flink-training/devResources/tuning.html">Tuning</a></li>
+            <li><a href="/flink-training/devResources/exceptionFaq.html">Exception FAQ</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Programming Exercises</h1>
+  </header>
+
+  <article class="post-content">
+    <p>This training provides programming exercises that teach how to  implement scalable data analysis programs with Apache Flink’s APIs and libraries. At this time, the exercises focus on Flink’s DataSet API (batch) but will be extended to further APIs and libraries in the future.</p>
+
+<p>The programming exercises assume a <a href="/flink-training/devSetup/intro.html">working development environment</a> and some basic knowledge of Flink’s programming primitives.</p>
+
+<hr />
+
+<p><br /></p>
+
+<h3 id="dataset-api-exercises">DataSet API Exercises</h3>
+
+<p>The <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/programming_guide.html">DataSet API</a> is a programming model for scalable batch processing. It features a Java and a Scala API which are feature equivalent and very similar. </p>
+
+<p>The exercises are ordered by increasing difficulty.</p>
+
+<h4 id="mail-count">Mail Count</h4>
+
+<p>Count the number of mails in the archive of Flink’s developer mailing list per email address and month.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Instructions</strong></td>
+      <td><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></td>
+    </tr>
+    <tr>
+      <td><strong>Data Set</strong></td>
+      <td><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></td>
+    </tr>
+    <tr>
+      <td><strong>API Features</strong></td>
+      <td><a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#map">Map</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#transformations-on-grouped-dataset">GroupBy</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#groupreduce-on-grouped-dataset">GroupReduce</a></td>
+    </tr>
+    <tr>
+      <td><strong>Reference Solution</strong>   </td>
+      <td>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/dataSetJava/mailCount/MailCount.java">MailCount.java</a>, Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/dataSetScala/mailCount/MailCount.scala">MailCount.scala</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h4 id="reply-graph">Reply Graph</h4>
+
+<p>Extract a graph of reply connections from the mails of Apache Flink’s developer mailing list archives. A reply connection is defined by two emails where one email that was sent as a reply to the other email. By extracting the email addresses of both mails of a reply connection, we can construct a graph that allows to analyze the Flink community.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Instructions</strong></td>
+      <td><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph</a></td>
+    </tr>
+    <tr>
+      <td><strong>Data Set</strong></td>
+      <td><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></td>
+    </tr>
+    <tr>
+      <td><strong>API Features</strong></td>
+      <td><a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#map">Map</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#join">Join</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#transformations-on-grouped-dataset">GroupBy</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#groupreduce-on-grouped-dataset">GroupReduce</a></td>
+    </tr>
+    <tr>
+      <td><strong>Reference Solution</strong>   </td>
+      <td>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/dataSetJava/replyGraph/ReplyGraph.java">ReplyGraph.java</a>, Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/dataSetScala/replyGraph/ReplyGraph.scala">ReplyGraph.scala</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+<h4 id="tf-idf">TF-IDF</h4>
+
+<p>Compute TermFrequency-InvertedDocumentFrequency (TF-IDF) metrics for words in all mails on the Flink developer mailing list. TF-IDF is a measure for the importance of a word in a document and commonly used by search engine for result ranking.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Instructions</strong></td>
+      <td><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></td>
+    </tr>
+    <tr>
+      <td><strong>Data Set</strong></td>
+      <td><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></td>
+    </tr>
+    <tr>
+      <td><strong>API Features</strong></td>
+      <td><a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#flatmap">FlatMap</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#transformations-on-grouped-dataset">GroupBy</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#groupreduce-on-grouped-dataset">GroupReduce</a>, <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#join">Join</a>, DataSet.collect()</td>
+    </tr>
+    <tr>
+      <td><strong>Reference Solution</strong>   </td>
+      <td>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/dataSetJava/tfIdf/MailTFIDF.java">MailTFIDF.java</a>, Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/dataSetScala/tfIdf/MailTFIDF.scala">MailTFIDF.scala</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h3 id="table-api-exercises">Table API Exercises</h3>
+
+<p>The <a href="http://ci.apache.org/projects/flink/flink-docs-master/libs/table.html">Table API</a> significantly eases the processing of structured data and evaluates SQL-like expressions. It can be mixed with the DataSet API and the DataStream API and offers methods to convert a DataSet/DataStream into a Table and vice versa.</p>
+
+<h4 id="member-of-the-month">Member of the Month</h4>
+
+<p>Find for each month the email address that sent the most emails to Flink’s developer mailing list. This task requires the DataSet API to bring the data into shape and the Table API to do the actual computation.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Instructions</strong></td>
+      <td><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></td>
+    </tr>
+    <tr>
+      <td><strong>Data Set</strong></td>
+      <td><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></td>
+    </tr>
+    <tr>
+      <td><strong>API Features</strong></td>
+      <td><a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#map">Map</a>, Table.select(), Table.groupBy(), Table.join()</td>
+    </tr>
+    <tr>
+      <td><strong>Reference Solution</strong>   </td>
+      <td>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/tableJava/memberOTM/MemberOTMonth.java">MemberOTMonth.java</a>, Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/tableScala/memberOTM/MemberOTMonth.scala">MemberOTMonth.scala</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<h3 id="gelly-flink-graph-api">Gelly: Flink Graph API</h3>
+
+<p>Gelly is a Java <a href="https://ci.apache.org/projects/flink/flink-docs-master/libs/gelly_guide.html">Graph API</a> for Flink. It contains a set of methods and utilities which aim to simplify the development of graph analysis applications in Flink. In Gelly, graphs can be transformed and modified using high-level functions similar to the ones provided by the batch processing API. Gelly provides methods to create, transform and modify graphs, as well as a library of graph algorithms.</p>
+
+<h4 id="pagerank-exercise">PageRank Exercise</h4>
+
+<p>Define a graph using Gelly API and analyze its structure by running Gelly’s PageRank algorithm.</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td><strong>Instructions</strong></td>
+      <td><a href="/flink-training/exercises/replyGraphGelly.html">Gelly: PageRank</a></td>
+    </tr>
+    <tr>
+      <td><strong>Data Set</strong></td>
+      <td><a href="/flink-training/exercises/replyGraph.html">Reply Graph DataSet</a> (Input Data Set for this exercise, is the output of the Reply Graph exercise)</td>
+    </tr>
+    <tr>
+      <td><strong>API Features</strong></td>
+      <td>Graph.fromDataSet(), Graph.reduceOnEdges(), Graph.joinWithEdgesOnSource()</td>
+    </tr>
+    <tr>
+      <td><strong>Reference Solution</strong>   </td>
+      <td>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/gellyJava/PageRankWithEdgeWeights.java">PageRankWithEdgeWeights.java</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br /></p>
+
+
+  </article>
+
+</div>
+
+      
+        <!-- Footer -->
+        <div class="site-footer text-center">
+          <p>Copyright © 2015 <a href="http://data-artisans.com">dataArtisans</a>. All Rights Reserved.</p>
+
+          <p>Apache Flink, Apache, and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>

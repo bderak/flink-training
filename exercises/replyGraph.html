@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>DataSet API - Reply Graph</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/flink-training/css/main.css">
+    <link rel="canonical" href="http://dataartisans.github.io/flink-training/exercises/replyGraph.html">
+    <link rel="alternate" type="application/rss+xml" title="Apache Flink Training" href="http://dataartisans.github.io/flink-training/feed.xml" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/flink-training/index.html">Apache Flink Training<sup>&reg;</sup></a>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <!-- Lessons -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lessons<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <!-- System Overview --> 
+            <li><a href="/flink-training/overview/intro.html">1. System Overview</a></li>
+            <li><a href="/flink-training/overview/slides.html">Lecture</a></li>
+            <li class="divider"></li>
+            <!-- Local Setup -->
+            <li><a href="/flink-training/devSetup/intro.html">2. Setup Development Environment</a></li>
+            <li><a href="/flink-training/devSetup/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Basics -->
+            <li><a href="/flink-training/dataSetBasics/intro.html">3. DataSet API Basics</a></li>
+            <li><a href="/flink-training/dataSetBasics/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetBasics/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Advanced -->
+            <li><a href="/flink-training/dataSetAdvanced/intro.html">4. DataSet API Advanced</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Table API -->
+            <li><a href="/flink-training/tableApi/intro.html">5. Table API</a></li>
+            <li><a href="/flink-training/tableApi/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/tableApi/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Closing -->
+            <li><a href="/flink-training/closing/intro.html">6. Closing</a></li>
+            <li><a href="/flink-training/closing/slides.html">Slides</a></li>
+          </ul>
+        </li>
+
+        <!-- Exercises --> 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exercises<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/exercises/">Overview</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></li>
+            <li><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph Extraction</a></li>
+            <li><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></li>
+			<li class="divider"></li>
+            <li><a href="/flink-training/exercises/replyGraphGelly.html">Gelly API: Page Rank</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></li>
+          </ul>
+        </li>
+
+        <!-- Documentation Links -->  
+        <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+
+        <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+            <li><a href="/flink-training/devResources/trainingSlides.html">Training Slides</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/devResources/bestPractices.html">Best Practices</a></li>
+            <li><a href="/flink-training/devResources/tuning.html">Tuning</a></li>
+            <li><a href="/flink-training/devResources/exceptionFaq.html">Exception FAQ</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">DataSet API - Reply Graph</h1>
+  </header>
+
+  <article class="post-content">
+    <p>The task of the “Reply Graph” exercise is to extract reply connections between mails in the archives of Apache Flink’s developer mailing list. These connections can be used to define a reply graph and to analyze the structure of the Flink community.</p>
+
+<p>A reply connection is defined as a pair of two email addresses (<code>Tuple2&lt;String, String&gt;</code>) where the first email address replied to an email of the second email address. The task of this exercise is to compute all reply connections between emails in the Mail Data Set and count the number of reply connections for each unique pair of email addresses.</p>
+
+<h3 id="input-data">Input Data</h3>
+
+<p>This exercise uses the Mail Data Set which was extracted from the Apache Flink development mailing list archive. The <a href="/flink-training/exercises/mailData.html">Mail Data Set instructions</a> show how to read the data set in a Flink program using the <code>CsvInputFormat</code>.</p>
+
+<p>The task requires three fields <code>MessageID</code>, <code>Sender</code>, and <code>Reply-To</code>. The input data can be read as a <code>DataSet&lt;Tuple3&lt;String, String, String&gt;&gt;</code>. When printed, the data set should look similar to this:</p>
+
+<pre><code>(&lt;CAAdrtT0-sfxxUK-BrPC03ia7t1WR_ogA5uA6J5CSRvuON+snTg@mail.gmail.com&gt;,Fabian Hueske &lt;fhueske@apache.org&gt;,&lt;C869A196-EB43-4109-B81C-23FE9F726AC6@apache.org&gt;)
+(&lt;CANMXwW0HOvk7n=h_rTv3RbK0E4ti1D7OdsY_3r8joib6rAAt2g@mail.gmail.com&gt;,Aljoscha Krettek &lt;aljoscha@apache.org&gt;,&lt;CANC1h_vn8E8TLXD=8szDN+0HO6JrU4AsCWgrXh8ojkA=FiPxNw@mail.gmail.com&gt;)
+(&lt;0E10813D-5ED0-421F-9880-17C958A41724@fu-berlin.de&gt;,Ufuk Celebi &lt;u.celebi@fu-berlin.de&gt;,null)
+</code></pre>
+
+<p><strong>Note</strong>, the <code>Reply-To</code> field might have the value <code>"null"</code> indicating that this mail was not written in repsonse to another mail.</p>
+
+<h3 id="expected-output">Expected Output</h3>
+
+<p>The result for the exercise should be a <code>DataSet&lt;Tuple3&lt;String, String, Integer&gt;&gt;</code>. The first field is the sender email address of the reply mail, the second field is the sender email address of the mail that was replied to, and the third field is the number of reply connections between these two email addresses. When printed, the data set should look like this:</p>
+
+<pre><code>(sewen@apache.org,rmetzger@apache.org,72)
+(aljoscha@apache.org,sewen@apache.org,40)
+(fhueske@apache.org,rmetzger@apache.org,22)
+(rmetzger@apache.org,fhueske@apache.org,22)
+</code></pre>
+
+<p>The first result line indicates that <code>sewen@apache.org</code> replied 72 times to an email send by <code>rmetzger@apache.org</code>.</p>
+
+<h3 id="implementation-hints">Implementation Hints</h3>
+
+<h4 id="program-structure">Program Structure</h4>
+
+<p>This exercise can be solved in three steps.</p>
+
+<ol>
+  <li>Extract the email address from the sender field and remove mails from automated senders such as JIRA or Github.</li>
+  <li>Compute reply connections of emails by evaluating the <code>MessageId</code> and <code>Reply-To</code> fields.</li>
+  <li>Count the number of reply connections for each unique pair of email addresses.</li>
+</ol>
+
+<h4 id="extract-email-address-from-sender-field">Extract Email address from sender field</h4>
+
+<p>Extracting the email address from the sender field can be done by looking at an individual input record. Hence it should be done using a <code>MapFunction</code> which replaces the sender field by the extracted email address. This the same operation that needs to be done for the <a href="/flink-training/exercises/mailCount.html">Mail Count</a> exercise.</p>
+
+<h4 id="computing-reply-connections">Computing reply connections</h4>
+
+<p>A reply connection is defined by two mail records where the <code>Reply-To</code> field of the first mail record is equal to the <code>MessageId</code> field of the second mail record. This is can be done by <a href="http://ci.apache.org/projects/flink/flink-docs-master/apis/dataset_transformations.html#join">joining</a> the mail record data set by itself on the <code>MessageId</code> and the <code>Reply-To</code> fields.</p>
+
+<h4 id="counting-the-number-of-reply-connections-per-pair-of-email-addresses">Counting the number of reply connections per pair of email addresses</h4>
+
+<p>Counting the number of reply connections for each unique pair of email addresses is again similar to counting the number of mails in the <a href="/flink-training/exercises/mailCount.html">Mail Count</a> exercise. </p>
+
+<h3 id="reference-solution">Reference Solution</h3>
+
+<p>Reference solutions are available at GitHub:</p>
+
+<ul>
+  <li>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/dataSetJava/replyGraph/ReplyGraph.java">ReplyGraph.java</a></li>
+  <li>Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/dataSetScala/replyGraph/ReplyGraph.scala">ReplyGraph.scala</a></li>
+</ul>
+
+  </article>
+
+</div>
+
+      
+        <!-- Footer -->
+        <div class="site-footer text-center">
+          <p>Copyright © 2015 <a href="http://data-artisans.com">dataArtisans</a>. All Rights Reserved.</p>
+
+          <p>Apache Flink, Apache, and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>

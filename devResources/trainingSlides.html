@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Training Slides</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/flink-training/css/main.css">
+    <link rel="canonical" href="http://dataartisans.github.io/flink-training/devResources/trainingSlides.html">
+    <link rel="alternate" type="application/rss+xml" title="Apache Flink Training" href="http://dataartisans.github.io/flink-training/feed.xml" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/flink-training/index.html">Apache Flink Training<sup>&reg;</sup></a>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <!-- Lessons -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lessons<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <!-- System Overview --> 
+            <li><a href="/flink-training/overview/intro.html">1. System Overview</a></li>
+            <li><a href="/flink-training/overview/slides.html">Lecture</a></li>
+            <li class="divider"></li>
+            <!-- Local Setup -->
+            <li><a href="/flink-training/devSetup/intro.html">2. Setup Development Environment</a></li>
+            <li><a href="/flink-training/devSetup/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Basics -->
+            <li><a href="/flink-training/dataSetBasics/intro.html">3. DataSet API Basics</a></li>
+            <li><a href="/flink-training/dataSetBasics/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetBasics/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Advanced -->
+            <li><a href="/flink-training/dataSetAdvanced/intro.html">4. DataSet API Advanced</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Table API -->
+            <li><a href="/flink-training/tableApi/intro.html">5. Table API</a></li>
+            <li><a href="/flink-training/tableApi/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/tableApi/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Closing -->
+            <li><a href="/flink-training/closing/intro.html">6. Closing</a></li>
+            <li><a href="/flink-training/closing/slides.html">Slides</a></li>
+          </ul>
+        </li>
+
+        <!-- Exercises --> 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exercises<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/exercises/">Overview</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></li>
+            <li><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph Extraction</a></li>
+            <li><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></li>
+			<li class="divider"></li>
+            <li><a href="/flink-training/exercises/replyGraphGelly.html">Gelly API: Page Rank</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></li>
+          </ul>
+        </li>
+
+        <!-- Documentation Links -->  
+        <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+
+        <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+            <li><a href="/flink-training/devResources/trainingSlides.html">Training Slides</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/devResources/bestPractices.html">Best Practices</a></li>
+            <li><a href="/flink-training/devResources/tuning.html">Tuning</a></li>
+            <li><a href="/flink-training/devResources/exceptionFaq.html">Exception FAQ</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Training Slides</h1>
+  </header>
+
+  <article class="post-content">
+    <iframe src="https://www.slideshare.net/slideshow/embed_code/key/i53sP650vRxhy5" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/eRgQ5YJc8newhB" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/BJVkTf8Y7AYeya" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/NfU6jSGUZunvIM" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+<p><br /></p>
+<hr />
+
+<p><br /></p>
+
+<iframe src="https://www.slideshare.net/slideshow/embed_code/key/yH0j6Af0d469cs" width="476" height="400" frameborder="0" marginwidth="0" marginheight="0" scrolling="no"></iframe>
+
+  </article>
+
+</div>
+
+      
+        <!-- Footer -->
+        <div class="site-footer text-center">
+          <p>Copyright © 2015 <a href="http://data-artisans.com">dataArtisans</a>. All Rights Reserved.</p>
+
+          <p>Apache Flink, Apache, and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>

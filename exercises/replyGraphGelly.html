@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Gelly API - PageRank on Reply Graph</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/flink-training/css/main.css">
+    <link rel="canonical" href="http://dataartisans.github.io/flink-training/exercises/replyGraphGelly.html">
+    <link rel="alternate" type="application/rss+xml" title="Apache Flink Training" href="http://dataartisans.github.io/flink-training/feed.xml" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/flink-training/index.html">Apache Flink Training<sup>&reg;</sup></a>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <!-- Lessons -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lessons<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <!-- System Overview --> 
+            <li><a href="/flink-training/overview/intro.html">1. System Overview</a></li>
+            <li><a href="/flink-training/overview/slides.html">Lecture</a></li>
+            <li class="divider"></li>
+            <!-- Local Setup -->
+            <li><a href="/flink-training/devSetup/intro.html">2. Setup Development Environment</a></li>
+            <li><a href="/flink-training/devSetup/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Basics -->
+            <li><a href="/flink-training/dataSetBasics/intro.html">3. DataSet API Basics</a></li>
+            <li><a href="/flink-training/dataSetBasics/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetBasics/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Advanced -->
+            <li><a href="/flink-training/dataSetAdvanced/intro.html">4. DataSet API Advanced</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Table API -->
+            <li><a href="/flink-training/tableApi/intro.html">5. Table API</a></li>
+            <li><a href="/flink-training/tableApi/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/tableApi/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Closing -->
+            <li><a href="/flink-training/closing/intro.html">6. Closing</a></li>
+            <li><a href="/flink-training/closing/slides.html">Slides</a></li>
+          </ul>
+        </li>
+
+        <!-- Exercises --> 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exercises<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/exercises/">Overview</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></li>
+            <li><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph Extraction</a></li>
+            <li><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></li>
+			<li class="divider"></li>
+            <li><a href="/flink-training/exercises/replyGraphGelly.html">Gelly API: Page Rank</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></li>
+          </ul>
+        </li>
+
+        <!-- Documentation Links -->  
+        <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+
+        <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+            <li><a href="/flink-training/devResources/trainingSlides.html">Training Slides</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/devResources/bestPractices.html">Best Practices</a></li>
+            <li><a href="/flink-training/devResources/tuning.html">Tuning</a></li>
+            <li><a href="/flink-training/devResources/exceptionFaq.html">Exception FAQ</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">Gelly API - PageRank on Reply Graph</h1>
+  </header>
+
+  <article class="post-content">
+    <p>The task of the “Reply Graph with PageRank” exercise is to define a graph using Flink’s Gelly API and then to analyze the structure of the Flink community by running a pageRank algorithm over it.
+The input data set for graph generation is the output of the  <a href="/flink-training/exercises/replyGraph.html">Reply Graph</a> exercise.</p>
+
+<h3 id="input-data">Input Data</h3>
+
+<p>This exercise uses the output of the <a href="/flink-training/exercises/replyGraph.html">Reply Graph</a> exercise as input (<code>CsvInputFormat</code>).</p>
+
+<p>The input data can be read as <code>DataSet&lt;Tuple3&lt;String, String, Integer&gt;&gt;</code>. The first field is the sender email address of the reply mail, the second field is the sender email address of the mail that was replied to, and the third field is the number of reply connections between these two email addresses. When printed, the data set should look like this:</p>
+
+<pre><code>(sewen@apache.org,rmetzger@apache.org,72)
+(aljoscha@apache.org,sewen@apache.org,40)
+(fhueske@apache.org,rmetzger@apache.org,22)
+(rmetzger@apache.org,fhueske@apache.org,22)
+</code></pre>
+
+<h3 id="expected-output">Expected Output</h3>
+
+<p>The result of the exercise should be a <code>DataSet&lt;Vertex&lt;String,Double&gt;&gt;</code>. The first field indicates the vertex id, i.e., email address, the second field is its associated rank.
+When printed, the data set should look like this:</p>
+
+<pre><code>sewen@apache.org,0.09693645392297123
+aljoscha@apache.org,0.038048230343289406
+</code></pre>
+
+<h3 id="implementation-hints">Implementation Hints</h3>
+
+<h4 id="program-structure">Program Structure</h4>
+
+<p>This exercise can be solved in three steps.</p>
+
+<ol>
+  <li>Read Reply Graph as edge DataSet</li>
+  <li>Generate Graph from edge DataSet</li>
+  <li>Apply Gelly PageRank algorithm</li>
+</ol>
+
+<h4 id="read-reply-graph-as-edge-dataset">Read Reply Graph as edge DataSet</h4>
+
+<p>Read each tuple <code>DataSet&lt;Tuple3&lt;String, String, Double&gt;&gt;</code> of the replyGraph exercise as an Edge. The data generated from the reply-graph exercise can be read as a data set of edges with emails being the source and target edge ids, while the number of reply connections can be stored as edge weights. </p>
+
+<h4 id="generate-graph-from-edge-dataset">Generate Graph from edge DataSet</h4>
+
+<p>Use one of the methods of Gelly API to create a weighted graph, such as the <code>fromDataSet</code> method. It is recommended to create a class which takes as input arguments: path of input file, output file and number of iterations for the PageRank algorithm. <strong>Note</strong>, Add the <code>gelly dependency</code> in the pom file.</p>
+
+<h4 id="apply-gelly-pagerank-algorithm">Apply Gelly PageRank algorithm</h4>
+
+<p>The final step of this exercise is to apply Gelly’s <a href="https://github.com/apache/flink/blob/master/flink-staging/flink-gelly/src/main/java/org/apache/flink/graph/library/PageRankAlgorithm.java">PageRank algorithm</a> by calling <code>graph.run(new PageRankAlgorithm&lt;..&gt;(input parameters))</code>. In Gelly’s PageRank implementation, a vertex distributes its rank to the target vertices according to the weight of its outgoing edges e.g. if vertex A has two outgoing links (<code>&lt;A,B,2&gt;</code>, <code>&lt;A,C,1&gt;</code>), vertex B will get 2/3 of the total share of rank distributed by A, while C will get only 1/3. A suggestion would be to update edge values once a graph has been obtained, by taking into consideration the sum of all the outgoing edges from a given vertex,(<code>&lt;A,B,2/3&gt;</code>,<code>&lt;A,C,1/3&gt;</code>). </p>
+
+<h3 id="reference-solution">Reference Solution</h3>
+
+<p>Reference solution is available at GitHub:</p>
+
+<ul>
+  <li>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/gellyJava/PageRankWithEdgeWeights.java">PageRankWithEdgeWeights.java</a></li>
+</ul>
+
+  </article>
+
+</div>
+
+      
+        <!-- Footer -->
+        <div class="site-footer text-center">
+          <p>Copyright © 2015 <a href="http://data-artisans.com">dataArtisans</a>. All Rights Reserved.</p>
+
+          <p>Apache Flink, Apache, and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>

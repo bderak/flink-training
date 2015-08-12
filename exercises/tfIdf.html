@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>DataSet API - TF-IDF</title>
+    <meta name="description" content="Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.
+">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="/flink-training/css/main.css">
+    <link rel="canonical" href="http://dataartisans.github.io/flink-training/exercises/tfIdf.html">
+    <link rel="alternate" type="application/rss+xml" title="Apache Flink Training" href="http://dataartisans.github.io/flink-training/feed.xml" />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-default">
+  <div class="container">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/flink-training/index.html">Apache Flink Training<sup>&reg;</sup></a>
+      
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+
+        <!-- Lessons -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Lessons<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <!-- System Overview --> 
+            <li><a href="/flink-training/overview/intro.html">1. System Overview</a></li>
+            <li><a href="/flink-training/overview/slides.html">Lecture</a></li>
+            <li class="divider"></li>
+            <!-- Local Setup -->
+            <li><a href="/flink-training/devSetup/intro.html">2. Setup Development Environment</a></li>
+            <li><a href="/flink-training/devSetup/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Basics -->
+            <li><a href="/flink-training/dataSetBasics/intro.html">3. DataSet API Basics</a></li>
+            <li><a href="/flink-training/dataSetBasics/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetBasics/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- DataSet Advanced -->
+            <li><a href="/flink-training/dataSetAdvanced/intro.html">4. DataSet API Advanced</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/dataSetAdvanced/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Table API -->
+            <li><a href="/flink-training/tableApi/intro.html">5. Table API</a></li>
+            <li><a href="/flink-training/tableApi/slides.html">Lecture</a></li>
+            <li><a href="/flink-training/tableApi/handsOn.html">Hands-On</a></li>
+            <li class="divider"></li>
+            <!-- Closing -->
+            <li><a href="/flink-training/closing/intro.html">6. Closing</a></li>
+            <li><a href="/flink-training/closing/slides.html">Slides</a></li>
+          </ul>
+        </li>
+
+        <!-- Exercises --> 
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Exercises<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/exercises/">Overview</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailCount.html">DataSet API: Mail Count</a></li>
+            <li><a href="/flink-training/exercises/replyGraph.html">DataSet API: Reply Graph Extraction</a></li>
+            <li><a href="/flink-training/exercises/tfIdf.html">DataSet API: TF-IDF</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/memberOTM.html">Table API: Member of the Month</a></li>
+			<li class="divider"></li>
+            <li><a href="/flink-training/exercises/replyGraphGelly.html">Gelly API: Page Rank</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/exercises/mailData.html">Mail Data Set</a></li>
+          </ul>
+        </li>
+
+        <!-- Documentation Links -->  
+        <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+
+        <!--
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Resources<span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="/flink-training/devResources/docLinks.html">Flink Documentation</a></li>
+            <li><a href="/flink-training/devResources/trainingSlides.html">Training Slides</a></li>
+            <li class="divider"></li>
+            <li><a href="/flink-training/devResources/bestPractices.html">Best Practices</a></li>
+            <li><a href="/flink-training/devResources/tuning.html">Tuning</a></li>
+            <li><a href="/flink-training/devResources/exceptionFaq.html">Exception FAQ</a></li>
+          </ul>
+        </li>
+        -->
+      </ul>
+      <!--
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#">Link</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    -->
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+    <div class="page-content">
+      <div class="wrapper">
+        <div class="post">
+
+  <header class="post-header">
+    <h1 class="post-title">DataSet API - TF-IDF</h1>
+  </header>
+
+  <article class="post-content">
+    <p>The task of the TF-IDF exercise is to compute the <em>term-frequency/inverted-document-frequency</em> (TF-IDF) metric for words in mails of the Flink developer mailing list archives. </p>
+
+<p>TF-IDF is a metric to measure the importance of a term (word) in a document that is part of a collection of documents. It is commonly used to weight the importance of search terms in search engines. </p>
+
+<p>TF-IDF is defined in two parts:</p>
+
+<ul>
+  <li>The <em>term-frequency</em> <code>tf(t, d)</code> is the frequency of a term <code>t</code> in a document <code>d</code>, i.e., <code>tf('house', d1)</code> is equal to three if document <code>d1</code> contains the word <code>'house'</code> three times.</li>
+  <li>The <em>inverted-document-frequency</em> <code>idf(t, D)</code> is the inverted fraction of documents that contain a term <code>t</code> in a collection of documents <code>D</code>, i.e., <code>idf('house', D) = 1.25</code> if four documents in a collection of five documents contain the word <code>'house'</code> (5 / 4 = 1.25).</li>
+</ul>
+
+<p>The TF-IDF metric for a term <code>t</code> in document <code>d</code> of a collection <code>D</code> is computed as </p>
+
+<pre><code>tf-idf(t, d, D) = tf(t, d) * idf(t, D).
+</code></pre>
+
+<p>Following this definition, a term has a high TF-IDF score (and is considered to be representative for a document) if it occurs very often in the document, but is rare in the overall collection of documents.</p>
+
+<h3 id="input-data">Input Data</h3>
+
+<p>This exercise uses the Mail Data Set which was extracted from the Apache Flink development mailing list archive. The <a href="/flink-training/exercises/mailData.html">Mail Data Set instructions</a> show how to read the data set in a Flink program using the <code>CsvInputFormat</code>.</p>
+
+<p>The task requires two fields, <code>MessageId</code> and <code>Body</code>. The input data can be read as a <code>DataSet&lt;Tuple2&lt;String, String&gt;&gt;</code>. When printed, the data set should look similar to this:</p>
+
+<pre><code>(&lt;CAGr9p8A8Z7P787=c5RF5QbPKudLmPUsV3jCHKefZbwm=0UF-GA@mail.gmail.com&gt;,
+--047d7ba975c83720ed05122e218e
+Content-Type: text/plain; charset=UTF-8
+
+I didn't know that there was already an issue for this. I closed FLINK-1787.
+The correct issue is this one:
+https://issues.apache.org/jira/browse/FLINK-1711
+
+--047d7ba975c83720ed05122e218e--
+)
+(&lt;CANC1h_tGSdNdjO0YqQDPhBBtordrsMEOL8z1Rxwgy12LYB8aoQ@mail.gmail.com&gt;,
+--089e011823584ee26304fc0927d5
+Content-Type: text/plain; charset=UTF-8
+
+Yep, this looks like a bug, I agree.
+
+--089e011823584ee26304fc0927d5--
+)
+</code></pre>
+
+<h3 id="expected-output">Expected Output</h3>
+
+<p>The result of the program should be a <code>DataSet&lt;Tuple3&lt;String, String, Double&gt;&gt;</code> where the first field is the <code>MessageId</code>, the second field is the <code>Word</code>, and the third field is the <code>TF-IDF</code> score.
+When printed the data set should look like this:</p>
+
+<pre><code>(&lt;CAPud8TrjpXYyqo6ur05-sjhUwRSh10XJVnCx_RuW9aUNKqjUTw@mail.gmail.com&gt;,slide,2901.0)
+(&lt;CAPud8TrjpXYyqo6ur05-sjhUwRSh10XJVnCx_RuW9aUNKqjUTw@mail.gmail.com&gt;,might,7.7774)
+(&lt;CAPud8TrjpXYyqo6ur05-sjhUwRSh10XJVnCx_RuW9aUNKqjUTw@mail.gmail.com&gt;,case,21.1751)
+(&lt;CANC1h_s+BoRd7YMs5JTyhouDSC4x+5whH5feyfZOhG=_N7ZUsA@mail.gmail.com&gt;,ship,68.2588)
+(&lt;CANC1h_s+BoRd7YMs5JTyhouDSC4x+5whH5feyfZOhG=_N7ZUsA@mail.gmail.com&gt;,api,34.0721)
+</code></pre>
+
+<p>The first line of the example output indicates that the word <code>slide</code> has an TF-IDF score of <code>2901.0</code> in the mail with the ID <code>&lt;CAPud8TrjpXYyqo6ur05-sjhUwRSh10XJVnCx_RuW9aUNKqjUTw@mail.gmail.com&gt;</code>.</p>
+
+<h3 id="implementation-hints">Implementation Hints</h3>
+
+<h4 id="program-structure">Program Structure</h4>
+
+<p>Computing TF-IDF scores on a set of documents requires the following processing steps:</p>
+
+<ol>
+  <li>Count the number of documents (required to compute IDF)</li>
+  <li>Compute the term-frequency (TF)</li>
+  <li>Compute the inverted-document-frequency (IDF)</li>
+  <li>Compute the TF-IDF from TF and IDF</li>
+</ol>
+
+<h4 id="word-extraction-filtering--normalization">Word Extraction, Filtering &amp; Normalization</h4>
+
+<p>The task requires to extract words from the message body. This can be done by tokenizing the <code>Body</code> String by whitespaces, filtering for tokens with alphabetical characters only, and converting all letters to lowercase. It is also common to filter out words that frequently occur in texts (so-called stop words) such as:</p>
+
+<pre><code>"the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is",
+"there", "it", "this", "that", "on", "was", "by", "of", "to", "in",
+"to", "not", "be", "with", "you", "have", "as", "can"
+</code></pre>
+
+<h4 id="count-the-number-of-documents">Count the number of documents</h4>
+
+<p>The most convenient method to count the number of elements in a data set is the <code>DataSet.count()</code> method which returns a <code>long</code> value with the number of elements in the data set. <code>count()</code> is eagerly executed and does not require an <code>ExecutionEnvironment.execute()</code> call. The <code>long</code> value can be shared with the function that computes <code>IDF</code> as a constructor parameter.</p>
+
+<h4 id="computing-the-term-frequency">Computing the Term-Frequency</h4>
+
+<p>Computing the frequency of words in a document can be independently done on each document using a <code>FlatMapFunction</code>. The function receives one document at a time, extracts all words, counts the occurrences of each unique word in the text (e.g., using a hash map), and emits one tuple with three fields <code>(UniqueMID, Word, TF)</code> for each counted word.</p>
+
+<h4 id="computing-the-inverted-document-frequency">Computing the Inverted-Document-Frequency</h4>
+
+<p>Computing the fraction of documents that contain a certain word can be done in two steps. First compute the absolute number of documents that contain the word and second compute the IDF by normalizing the absolute count by the total number of documents (which was computed in a previous step). Computing the absolute number of documents that contain a certain word is similar to the <a href="/flink-training/exercises/mailCount.html">Mail Count</a> exercise or the common WordCount example. When extracting the unique words from the document the same normalization techniques as for the TF computation should be applied. Unique words can be obtained by storing them in a hash set. The result of this step should be a tuple with two fields, <code>(Word, IDF)</code>.</p>
+
+<h4 id="computing-the-tf-idf-score">Computing the TF-IDF score</h4>
+
+<p>Given the computed data sets for TF and IDF, we need to bring together the TF and IDF scores for each term, i.e., join the two data sets on the <code>Word</code> field, and compute the corresponding TF-IDF score.</p>
+
+<h3 id="reference-solution">Reference Solution</h3>
+
+<p>Reference solutions are available at GitHub:</p>
+
+<ul>
+  <li>Java: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/java/com/dataArtisans/flinkTraining/exercises/dataSetJava/tfIdf/MailTFIDF.java">MailTFIDF.java</a></li>
+  <li>Scala: <a href="https://github.com/dataArtisans/flink-training/blob/master/flink-exercises/src/main/scala/com/dataArtisans/flinkTraining/exercises/dataSetScala/tfIdf/MailTFIDF.scala">MailTFIDF.scala</a></li>
+</ul>
+
+  </article>
+
+</div>
+
+      
+        <!-- Footer -->
+        <div class="site-footer text-center">
+          <p>Copyright © 2015 <a href="http://data-artisans.com">dataArtisans</a>. All Rights Reserved.</p>
+
+          <p>Apache Flink, Apache, and the Apache feather logo are trademarks of The Apache Software Foundation.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    
+  </body>
+</html>
