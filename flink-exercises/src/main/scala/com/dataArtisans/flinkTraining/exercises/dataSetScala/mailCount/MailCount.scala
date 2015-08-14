@@ -53,9 +53,11 @@ object MailCount {
                     // extract month from time string
                     m._1.substring(0, 7),
                     // extract email address from sender
-                    m._2.substring(m._2.lastIndexOf("<") + 1, m._2.length - 1) ) }
+                    m._2.substring(m._2.lastIndexOf("<") + 1, m._2.length - 1),
+                    // add counter to each record
+                    1) }
       // group by month and sender and count the number of records per group
-      .groupBy(0, 1).reduceGroup { ms => ms.foldLeft(("","",0))( (c, m) => (m._1, m._2, c._3+1)) }
+      .groupBy(0, 1).sum(2)
       // print the result
       .print
 
