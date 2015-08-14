@@ -34,8 +34,8 @@ object ReplyGraph {
   def main(args: Array[String]) {
 
     // parse parameters
-    val params = ParameterTool.fromArgs(args);
-    val input = params.getRequired("input");
+    val params = ParameterTool.fromArgs(args)
+    val input = params.getRequired("input")
 
     // set up the execution environment
     val env = ExecutionEnvironment.getExecutionEnvironment
@@ -59,11 +59,11 @@ object ReplyGraph {
 
     // compute reply connections by joining on messageId and reply-to
     val replyConnections = addressMails
-      .join(addressMails).where(2).equalTo(0) { (l,r) => (l._2, r._2) }
+      .join(addressMails).where(2).equalTo(0) { (l,r) => (l._2, r._2, 1) }
 
     // count connections for each pair of addresses
     replyConnections
-      .groupBy(0,1).reduceGroup( cs => cs.foldLeft(("","",0))( (l,r) => (r._1, r._2, l._3+1) ) )
+      .groupBy(0,1).sum(2)
       .print
 
   }
