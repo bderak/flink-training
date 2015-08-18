@@ -18,6 +18,8 @@
 
 package com.dataArtisans.flinkTraining.exercises.dataSetScala.tfIdf
 
+import java.util.regex.Pattern
+
 import com.dataArtisans.flinkTraining.dataSetPreparation.MBoxParser
 import org.apache.flink.api.common.functions.FlatMapFunction
 import org.apache.flink.api.java.utils.ParameterTool
@@ -40,7 +42,7 @@ object MailTFIDF {
     "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
     "have", "as", "can")
 
-  val WORD_PATTERN = "(\\p{Alpha})+".r
+  val WORD_PATTERN: Pattern = Pattern.compile("(\\p{Alpha})+")
 
    def main(args: Array[String]) {
 
@@ -73,7 +75,7 @@ object MailTFIDF {
              // split the body
              .split(Array(' ', '\t', '\n', '\r', '\f'))
              // filter out stop words and non-words
-             .filter(w => !STOP_WORDS.contains(w) && WORD_PATTERN.findFirstIn(w).isDefined)
+             .filter(w => !STOP_WORDS.contains(w) && WORD_PATTERN.matcher(w).matches())
              // count the number of occurrences of a word in each document
              .map(m => (m, 1)).groupBy(_._1).map {
              case (item, count) => (item, count.foldLeft(0)(_ + _._2))
@@ -88,24 +90,28 @@ object MailTFIDF {
      // compute document frequency (number of mails that contain a word at least once)
      // we can reuse the tf data set, since it already contains document <-> word association
      val df = tf
+       // find unique document/word combination
+       .distinct(0,1)
        // add a counter
-       .map(m => (m._1, m._2, 1))
+       .map(m => (m._2, 1))
        // group by the words
-       .groupBy(1)
+       .groupBy(0)
        // count the number of documents in each group (df)
-       .sum(2)
+       .sum(1)
 
      // compute TF-IDF score from TF, DF, and total number of mails
      val tfidf = tf
        .join(df)
-       .where(0, 1)
-       .equalTo(0, 1) {
-       (l, r) => (l._1, l._2, l._3 * (mailCnt.toDouble / r._3))
+       // where "word" from tf
+       .where(1)
+       // is equal "word" from df
+       .equalTo(0) {
+       (l, r) => (l._1, l._2, l._3 * (mailCnt.toDouble / r._2))
      }
      
      // print the result
-     tfidf.writeAsText("mymethod")
-     env.execute()
+     tfidf.print()
+
    }
 
  }
