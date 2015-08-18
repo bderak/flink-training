@@ -89,16 +89,37 @@ object MailTFIDF {
      }
      // compute document frequency (number of mails that contain a word at least once)
      // we can reuse the tf data set, since it already contains document <-> word association
-     val df = tf
-       // find unique document/word combination
-       .distinct(0,1)
-       // add a counter
-       .map(m => (m._2, 1))
+     val df = mails.flatMap{
+       new FlatMapFunction[(String, String), (String, Int)] {
+         // stop words to be filtered out
+         val stopWords = List(
+           "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
+           "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
+           "have", "as", "can")
+
+         // pattern for recognizing acceptable 'word'
+         val wordPattern: Pattern = Pattern.compile("(\\p{Alpha})+")
+
+         def flatMap(mail: (String, String), out: Collector[(String, Int)]): Unit = {
+           val output = mail._2.toLowerCase
+             // split the body
+             .split(Array(' ', '\t', '\n', '\r', '\f'))
+             // filter out stop words and non-words
+             .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
+             // count the number of occurrences of a word in each document
+             .distinct
+           // use the same mail id for each word in the body
+           output.foreach(m => out.collect(m, 1))
+         }
+
+       }
+
+     }
        // group by the words
        .groupBy(0)
        // count the number of documents in each group (df)
        .sum(1)
-
+     
      // compute TF-IDF score from TF, DF, and total number of mails
      val tfidf = tf
        .join(df)
@@ -114,7 +135,6 @@ object MailTFIDF {
        .print()
 
    }
-
  }
 
 
