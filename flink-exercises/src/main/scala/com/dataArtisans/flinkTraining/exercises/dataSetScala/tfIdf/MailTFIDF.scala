@@ -37,13 +37,6 @@ import org.apache.flink.util.Collector
  */
 object MailTFIDF {
 
-  val STOP_WORDS = List(
-    "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
-    "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
-    "have", "as", "can")
-
-  val WORD_PATTERN: Pattern = Pattern.compile("(\\p{Alpha})+")
-
    def main(args: Array[String]) {
 
      // parse parameters
@@ -67,6 +60,14 @@ object MailTFIDF {
      // compute term-frequency (TF)
      val tf = mails.flatMap {
        new FlatMapFunction[(String, String), (String, String, Int)] {
+         // stop words to be filtered out
+         val stopWords = List(
+           "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
+           "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
+           "have", "as", "can")
+
+         // pattern for recognizing acceptable 'word'
+         val wordPattern: Pattern = Pattern.compile("(\\p{Alpha})+")
 
          def flatMap(mail: (String, String), out: Collector[(String, String, Int)]): Unit = {
            // extract email id
@@ -75,7 +76,7 @@ object MailTFIDF {
              // split the body
              .split(Array(' ', '\t', '\n', '\r', '\f'))
              // filter out stop words and non-words
-             .filter(w => !STOP_WORDS.contains(w) && WORD_PATTERN.matcher(w).matches())
+             .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
              // count the number of occurrences of a word in each document
              .map(m => (m, 1)).groupBy(_._1).map {
              case (item, count) => (item, count.foldLeft(0)(_ + _._2))
@@ -86,7 +87,6 @@ object MailTFIDF {
 
        }
      }
-
      // compute document frequency (number of mails that contain a word at least once)
      // we can reuse the tf data set, since it already contains document <-> word association
      val df = tf
@@ -110,7 +110,8 @@ object MailTFIDF {
      }
      
      // print the result
-     tfidf.print()
+     tfidf
+       .print()
 
    }
 
