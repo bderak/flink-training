@@ -43,6 +43,14 @@ object MailTFIDF {
      val params = ParameterTool.fromArgs(args)
      val input = params.getRequired("input")
 
+     val stopWords = List(
+       "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
+       "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
+       "have", "as", "can")
+
+     // pattern for recognizing acceptable 'word'
+     val wordPattern: Pattern = Pattern.compile("(\\p{Alpha})+")
+
      // set up the execution environment
      val env = ExecutionEnvironment.getExecutionEnvironment
 
@@ -58,63 +66,10 @@ object MailTFIDF {
      val mailCnt = mails.count()
 
      // compute term-frequency (TF)
-     val tf = mails.flatMap {
-       new FlatMapFunction[(String, String), (String, String, Int)] {
-         // stop words to be filtered out
-         val stopWords = List(
-           "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
-           "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
-           "have", "as", "can")
+     val tf = mails.flatMap(new TFComputer(stopWords, wordPattern))
 
-         // pattern for recognizing acceptable 'word'
-         val wordPattern: Pattern = Pattern.compile("(\\p{Alpha})+")
-
-         def flatMap(mail: (String, String), out: Collector[(String, String, Int)]): Unit = {
-           // extract email id
-           val id = mail._1
-           val output = mail._2.toLowerCase
-             // split the body
-             .split(Array(' ', '\t', '\n', '\r', '\f'))
-             // filter out stop words and non-words
-             .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
-             // count the number of occurrences of a word in each document
-             .map(m => (m, 1)).groupBy(_._1).map {
-             case (item, count) => (item, count.foldLeft(0)(_ + _._2))
-           }
-           // use the same mail id for each word in the body
-           output.foreach(m => out.collect(id, m._1, m._2))
-         }
-
-       }
-     }
      // compute document frequency (number of mails that contain a word at least once)
-     // we can reuse the tf data set, since it already contains document <-> word association
-     val df = mails.flatMap{
-       new FlatMapFunction[(String, String), (String, Int)] {
-         // stop words to be filtered out
-         val stopWords = List(
-           "the", "i", "a", "an", "at", "are", "am", "for", "and", "or", "is", "there", "it", "this",
-           "that", "on", "was", "by", "of", "to", "in", "to", "message", "not", "be", "with", "you",
-           "have", "as", "can")
-
-         // pattern for recognizing acceptable 'word'
-         val wordPattern: Pattern = Pattern.compile("(\\p{Alpha})+")
-
-         def flatMap(mail: (String, String), out: Collector[(String, Int)]): Unit = {
-           val output = mail._2.toLowerCase
-             // split the body
-             .split(Array(' ', '\t', '\n', '\r', '\f'))
-             // filter out stop words and non-words
-             .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
-             // count the number of occurrences of a word in each document
-             .distinct
-           // use the same mail id for each word in the body
-           output.foreach(m => out.collect(m, 1))
-         }
-
-       }
-
-     }
+     val df = mails.flatMap(new DFComputer(stopWords, wordPattern))
        // group by the words
        .groupBy(0)
        // count the number of documents in each group (df)
@@ -129,12 +84,51 @@ object MailTFIDF {
        .equalTo(0) {
        (l, r) => (l._1, l._2, l._3 * (mailCnt.toDouble / r._2))
      }
-     
+
      // print the result
      tfidf
        .print()
 
    }
- }
+
+  class DFComputer(stopWords: List[String], wordPattern: Pattern)
+    extends FlatMapFunction[(String, String), (String, Int)] {
+
+    def flatMap(mail: (String, String), out: Collector[(String, Int)]): Unit = {
+      val output = mail._2.toLowerCase
+        // split the body
+        .split(Array(' ', '\t', '\n', '\r', '\f'))
+        // filter out stop words and non-words
+        .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
+        // count the number of occurrences of a word in each document
+        .distinct
+      // use the same mail id for each word in the body
+      output.foreach(m => out.collect(m, 1))
+    }
+
+  }
+
+  class TFComputer(stopWords: List[String], wordPattern: Pattern)
+    extends FlatMapFunction[(String, String), (String, String, Int)] {
+
+    def flatMap(mail: (String, String), out: Collector[(String, String, Int)]): Unit = {
+      // extract email id
+      val id = mail._1
+      val output = mail._2.toLowerCase
+        // split the body
+        .split(Array(' ', '\t', '\n', '\r', '\f'))
+        // filter out stop words and non-words
+        .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
+        // count the number of occurrences of a word in each document
+        .map(m => (m, 1)).groupBy(_._1).map {
+        case (item, count) => (item, count.foldLeft(0)(_ + _._2))
+      }
+      // use the same mail id for each word in the body
+      output.foreach(m => out.collect(id, m._1, m._2))
+    }
+
+  }
+
+}
 
 
