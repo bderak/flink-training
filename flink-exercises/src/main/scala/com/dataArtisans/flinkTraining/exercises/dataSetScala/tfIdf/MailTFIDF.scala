@@ -69,7 +69,7 @@ object MailTFIDF {
      val tf = mails.flatMap(new TFComputer(stopWords, wordPattern))
 
      // compute document frequency (number of mails that contain a word at least once)
-     val df = mails.flatMap(new DFComputer(stopWords, wordPattern))
+     val df = mails.flatMap(new UniqueWordExtractor(stopWords, wordPattern))
        // group by the words
        .groupBy(0)
        // count the number of documents in each group (df)
@@ -91,7 +91,13 @@ object MailTFIDF {
 
    }
 
-  class DFComputer(stopWords: List[String], wordPattern: Pattern)
+  /**
+   * extract list of unique words in each document
+   *
+   * @param stopWords a list of stop words that should be omitted
+   * @param wordPattern pattern that defines a word
+   */
+  class UniqueWordExtractor(stopWords: List[String], wordPattern: Pattern)
     extends FlatMapFunction[(String, String), (String, Int)] {
 
     def flatMap(mail: (String, String), out: Collector[(String, Int)]): Unit = {
@@ -102,12 +108,18 @@ object MailTFIDF {
         .filter(w => !stopWords.contains(w) && wordPattern.matcher(w).matches())
         // count the number of occurrences of a word in each document
         .distinct
-      // use the same mail id for each word in the body
+      // emit every word that appeared in a document
       output.foreach(m => out.collect(m, 1))
     }
 
   }
 
+  /**
+   * Calculate term frequency for each word per document
+   *
+   * @param stopWords a list of stop words that should be omitted
+   * @param wordPattern pattern that defines a word
+   */
   class TFComputer(stopWords: List[String], wordPattern: Pattern)
     extends FlatMapFunction[(String, String), (String, String, Int)] {
 
@@ -123,7 +135,7 @@ object MailTFIDF {
         .map(m => (m, 1)).groupBy(_._1).map {
         case (item, count) => (item, count.foldLeft(0)(_ + _._2))
       }
-      // use the same mail id for each word in the body
+      // emit the document id, a term, and its number of occurrences in the document
       output.foreach(m => out.collect(id, m._1, m._2))
     }
 
